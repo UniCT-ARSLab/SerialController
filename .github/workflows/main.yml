@@ -3,11 +3,7 @@ on:
   push:
     branches:
       - "main"
-    paths:
-      - "client/"
   pull_request:
-    paths:
-      - "client/"
 
 jobs:
   build:
