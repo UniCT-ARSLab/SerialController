@@ -32,6 +32,7 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
+
       - name: Install dependencies
         run: npm ci
         working-directory: ${{ env.working-directory }}
@@ -39,13 +40,6 @@ jobs:
       - name: Lint
         run: npm run lint
         working-directory: ${{ env.working-directory }}
-
-      - name: Unit and Integration tests
-        uses: nick-invision/retry@v2
-        with:
-          max_attempts: 5
-          command: npm run test-ci
-          timeout_minutes: 20
 
       - name: Build & test
         run: npm run test-ci
