@@ -9,9 +9,9 @@ module.exports = {
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-import-module-exports': 'off',
-    'no-shadow': 'off',
+    'no-shadow': 'error',
     '@typescript-eslint/no-shadow': 'error',
-    'no-unused-vars': 'off',
+    'no-unused-vars': 'error',
     '@typescript-eslint/no-unused-vars': 'error',
   },
   parserOptions: {
