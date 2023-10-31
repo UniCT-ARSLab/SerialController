@@ -4,12 +4,20 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/unict-arslab/SerialController/server/configs"
+	"github.com/unict-arslab/SerialController/server/routes"
 )
 
 func main() {
-	r := gin.Default()
+	router := gin.Default()
 
-	err := r.Run() // listen and serve on 0.0.0.0:8080
+	//run database
+	configs.ConnectDB()
+
+	//routes
+	routes.Routes(router)
+
+	err := router.Run("localhost:8080")
 
 	if err != nil {
 		fmt.Println("An error occurred:", err)
