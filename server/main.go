@@ -2,22 +2,31 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/unict-arslab/SerialController/server/configs"
+	"github.com/unict-arslab/SerialController/server/controllers"
 	"github.com/unict-arslab/SerialController/server/routes"
 )
 
 func main() {
-	router := gin.Default()
+	db := "./db.json"
 
-	//run database
-	configs.ConnectDB()
+	// create channel to communicate over
+	jobs := make(chan controllers.Job)
+
+	// start watching jobs channel for work
+	go controllers.ProcessJobs(jobs, db)
+
+	// create client for submitting jobs / providing interface to db
+	client := &controllers.ServoClient{Jobs: jobs}
+	handlers := &controllers.ServoHandlers{Client: client}
 
 	//routes
-	routes.Routes(router)
+	router := gin.Default()
 
+	routes.Routes(router, handlers)
+
+	//start web server
 	err := router.Run("localhost:8080")
 
 	if err != nil {
